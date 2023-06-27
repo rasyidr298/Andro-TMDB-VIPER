@@ -1,4 +1,4 @@
-package id.rrdev.tmdb_viper.feature
+package id.rrdev.tmdb_viper.helpers
 
 import id.rrdev.tmdb_viper.feature.genres.GenreEntities
 import id.rrdev.tmdb_viper.feature.movie.MovieEntities

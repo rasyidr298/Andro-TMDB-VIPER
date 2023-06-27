@@ -7,6 +7,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.Pager
 import androidx.paging.cachedIn
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import id.rrdev.tmdb_viper.databinding.ActivityMovieBinding
 import id.rrdev.tmdb_viper.feature.genres.Genre
 import id.rrdev.tmdb_viper.feature.genres.GenreRouter
@@ -24,6 +26,18 @@ class MovieActivity : AppCompatActivity(), MovieContract.View {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
+        setupView()
+    }
+
+    private fun setupView() {
+        binding.let {
+            it.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed()}
+            it.rvMovies.layoutManager = StaggeredGridLayoutManager(
+                2,
+                LinearLayoutManager.VERTICAL
+            )
+        }
+
         presenter = MoviePresenter(this)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -35,11 +49,6 @@ class MovieActivity : AppCompatActivity(), MovieContract.View {
                 idGenre = it
             )
         }
-
-        binding.rvMovies.layoutManager = GridLayoutManager(
-            this,
-            2
-        )
     }
 
     override fun setupRecyclerView(

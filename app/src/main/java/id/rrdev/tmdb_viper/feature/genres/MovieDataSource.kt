@@ -28,7 +28,6 @@ class MovieDataSource(
         val nextPageNumber = params.key ?: 1
 
         return try {
-
             val response = MovieNetworkHelper.service
                 .getMoviesByGenre(Constants.API_KEY, idGenre, nextPageNumber)
 

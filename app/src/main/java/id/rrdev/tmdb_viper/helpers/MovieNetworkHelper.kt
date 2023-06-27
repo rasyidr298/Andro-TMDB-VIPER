@@ -1,6 +1,5 @@
 package id.rrdev.tmdb_viper.helpers
 
-import id.rrdev.tmdb_viper.feature.MovieApi
 import id.rrdev.tmdb_viper.utilities.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
