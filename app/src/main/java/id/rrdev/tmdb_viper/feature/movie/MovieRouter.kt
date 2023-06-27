@@ -3,7 +3,7 @@ package id.rrdev.tmdb_viper.feature.movie
 import android.app.Activity
 import android.content.Intent
 import id.rrdev.tmdb_viper.feature.detail.DetailActivity
-import id.rrdev.tmdb_viper.utilities.enum.MovieBase
+import id.rrdev.tmdb_viper.utilities.Constants
 import java.io.Serializable
 
 class MovieRouter(
@@ -12,8 +12,12 @@ class MovieRouter(
 
     override fun goToDetailActivity(results: Movie) {
         Intent(activity, DetailActivity::class.java).apply {
-            putExtra(MovieBase.INTENT_HOLDER, results as Serializable)
+            putExtra(MOVIE, results as Serializable)
             activity?.startActivity(this)
         }
+    }
+
+    companion object {
+        const val MOVIE = "MOVIE"
     }
 }

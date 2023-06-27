@@ -4,7 +4,8 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class MovieEntities (
-    @SerializedName("results") val movies : List<Movie>
+    @SerializedName("results") val movies : List<Movie>,
+    @SerializedName("total_pages") val totalPages : Int
 ) : Serializable
 
 data class Movie (

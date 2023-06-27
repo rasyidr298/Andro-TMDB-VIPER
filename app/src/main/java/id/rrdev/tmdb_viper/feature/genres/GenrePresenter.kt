@@ -2,7 +2,6 @@ package id.rrdev.tmdb_viper.feature.genres
 
 import android.app.Activity
 import android.util.Log
-import id.rrdev.tmdb_viper.utilities.enum.CallSelector
 
 class GenrePresenter(
     private var view: GenreContract.View?

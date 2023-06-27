@@ -2,8 +2,8 @@ package id.rrdev.tmdb_viper.feature.genres
 
 import android.app.Activity
 import android.content.Intent
-import id.rrdev.tmdb_viper.feature.detail.DetailActivity
-import id.rrdev.tmdb_viper.utilities.enum.MovieBase
+import id.rrdev.tmdb_viper.feature.movie.MovieActivity
+import id.rrdev.tmdb_viper.utilities.Constants
 import java.io.Serializable
 
 class GenreRouter(
@@ -11,9 +11,13 @@ class GenreRouter(
 ) : GenreContract.Router {
 
     override fun goToDetailActivity(genres: Genre) {
-        Intent(activity, DetailActivity::class.java).apply {
-            putExtra(MovieBase.INTENT_HOLDER, genres as Serializable)
+        Intent(activity, MovieActivity::class.java).apply {
+            putExtra(GENRE, genres as Serializable)
             activity?.startActivity(this)
         }
+    }
+
+    companion object {
+        const val GENRE = "GENRE"
     }
 }

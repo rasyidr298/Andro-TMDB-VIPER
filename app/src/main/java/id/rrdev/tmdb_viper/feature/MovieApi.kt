@@ -15,11 +15,11 @@ interface MovieApi {
     ): Call<GenreEntities>
 
     @GET(MOVIES)
-    fun getMoviesByGenre(
+    suspend fun getMoviesByGenre(
         @Query("api_key") apiKey: String,
         @Query("with_genres") idGenre: Int,
         @Query("page") page: Int = 1,
-    ): Call<MovieEntities>
+    ): MovieEntities
 
     @GET("movie/{idMovie}/videos")
     fun getReview(

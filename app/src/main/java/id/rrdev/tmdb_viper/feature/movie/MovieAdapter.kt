@@ -6,27 +6,21 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import id.rrdev.tmdb_viper.databinding.ItemMovieBinding
+import id.rrdev.tmdb_viper.utilities.Constants
+import id.rrdev.tmdb_viper.utilities.load
 
 class MovieAdapter(
     private val onItemClicked: MovieContract.Presenter.MovieClickListener,
-    ) : PagingDataAdapter<Any, RecyclerView.ViewHolder>(ITEM_CALLBACK_OBJ) {
+) : PagingDataAdapter<Movie, RecyclerView.ViewHolder>(ITEM_CALLBACK_OBJ) {
 
     companion object {
-        val ITEM_CALLBACK_OBJ = object : DiffUtil.ItemCallback<Any>() {
-            override fun areItemsTheSame(oldItem: Any, newItem: Any): Boolean {
-                return if (oldItem is Movie && newItem is Movie) {
-                    oldItem.movieId == newItem.movieId
-                } else {
-                    false
-                }
+        val ITEM_CALLBACK_OBJ = object : DiffUtil.ItemCallback<Movie>() {
+            override fun areItemsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem.movieId == newItem.movieId
             }
 
-            override fun areContentsTheSame(oldItem: Any, newItem: Any): Boolean {
-                return if (oldItem is Movie && newItem is Movie) {
-                    oldItem == newItem
-                } else {
-                    false
-                }
+            override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
+                return oldItem == newItem
             }
         }
     }
@@ -62,7 +56,8 @@ class MovieAdapter(
             data: Movie
         ) {
             with(binding) {
-                //binding
+                tvName.text = data.title
+                imgBackground.load(Constants.MEDIUM_SIZE+data.image)
             }
             binding.root.setOnClickListener {
                 onItemClicked.onMovieClick(data)

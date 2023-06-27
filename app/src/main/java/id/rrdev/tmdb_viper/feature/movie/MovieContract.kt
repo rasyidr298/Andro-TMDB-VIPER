@@ -1,21 +1,35 @@
 package id.rrdev.tmdb_viper.feature.movie
 
-import id.rrdev.tmdb_viper.utilities.enum.CallSelector
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.paging.Pager
+import androidx.paging.PagingData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 
 
 interface MovieContract {
     interface View{
-        fun setupRecyclerView(selector: CallSelector, adapter: MovieAdapter)
+        fun setupRecyclerView(
+            adapter: MovieAdapter,
+            result: Pager<Int, Movie>,
+        )
     }
     interface Interactor{
-        fun fetchMovies(idGenre: Int, page: Int, interactorOutPut: InteractorOutput)
+        fun fetchMovies(
+            idGenre: Int,
+            interactorOutPut: InteractorOutput
+        )
     }
     interface InteractorOutput{
-        fun onSuccess(result : List<Movie>, selector: CallSelector)
+        fun onSuccess(
+            result : Pager<Int, Movie>
+        )
         fun onFailure(message : String)
     }
     interface Presenter{
-        fun onActivityCreated()
+        fun onActivityCreated(
+            idGenre: Int
+        )
         fun onDestroy()
         interface MovieClickListener {
             fun onMovieClick(result: Movie)
