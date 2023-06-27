@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView
 import id.rrdev.tmdb_viper.databinding.ItemGenreBinding
 import id.rrdev.tmdb_viper.utilities.randomColor
 
-
 class GenreAdapter(
     private val genres: List<Genre>,
     private val onItemClicked: GenreContract.Presenter.MovieClickListener,

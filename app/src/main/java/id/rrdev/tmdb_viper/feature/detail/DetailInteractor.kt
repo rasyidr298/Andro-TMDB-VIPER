@@ -1,23 +1,23 @@
-package id.rrdev.tmdb_viper.feature.movie
+package id.rrdev.tmdb_viper.feature.detail
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import id.rrdev.tmdb_viper.feature.custom.ContentDataSource
 import id.rrdev.tmdb_viper.feature.custom.ContentEnum
 
-class MovieInteractor : MovieContract.Interactor {
+class DetailInteractor : DetailContract.Interactor {
 
-    override fun fetchMovies(
-        idGenre: Int,
-        interactorOutPut: MovieContract.InteractorOutput
+    override fun fetchReview(
+        movieId: Int,
+        interactorOutput: DetailContract.InteractorOutPut
     ) {
-        interactorOutPut.onSuccess(
+        interactorOutput.onSuccess(
             result = Pager(
                 config = PagingConfig(1),
                 pagingSourceFactory = {
                     ContentDataSource(
-                        idGenre = idGenre,
-                        contentEnum = ContentEnum.Movie
+                        idMovie = movieId,
+                        contentEnum = ContentEnum.Review
                     )
                 }
             )

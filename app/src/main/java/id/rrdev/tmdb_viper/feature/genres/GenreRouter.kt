@@ -3,7 +3,6 @@ package id.rrdev.tmdb_viper.feature.genres
 import android.app.Activity
 import android.content.Intent
 import id.rrdev.tmdb_viper.feature.movie.MovieActivity
-import id.rrdev.tmdb_viper.utilities.Constants
 import java.io.Serializable
 
 class GenreRouter(

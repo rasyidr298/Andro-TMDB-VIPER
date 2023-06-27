@@ -1,15 +1,14 @@
 package id.rrdev.tmdb_viper.feature.movie
 
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.Pager
 import androidx.paging.cachedIn
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import id.rrdev.tmdb_viper.databinding.ActivityMovieBinding
+import id.rrdev.tmdb_viper.feature.custom.CustomPagingAdapter
 import id.rrdev.tmdb_viper.feature.genres.Genre
 import id.rrdev.tmdb_viper.feature.genres.GenreRouter
 import kotlinx.coroutines.Dispatchers
@@ -20,7 +19,6 @@ class MovieActivity : AppCompatActivity(), MovieContract.View {
 
     private val binding by lazy { ActivityMovieBinding.inflate( layoutInflater) }
     private var presenter : MoviePresenter? = null
-    private var genre: Genre? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,33 +30,30 @@ class MovieActivity : AppCompatActivity(), MovieContract.View {
     private fun setupView() {
         binding.let {
             it.btnBack.setOnClickListener { onBackPressedDispatcher.onBackPressed()}
-            it.rvMovies.layoutManager = StaggeredGridLayoutManager(
-                2,
-                LinearLayoutManager.VERTICAL
-            )
+            it.rvMovies.layoutManager = StaggeredGridLayoutManager(2, LinearLayoutManager.VERTICAL)
         }
 
         presenter = MoviePresenter(this)
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            genre = intent.extras?.getParcelable(GenreRouter.GENRE, Genre::class.java)
-        }
-
-        genre?.id?.let {
-            presenter?.onActivityCreated(
-                idGenre = it
-            )
+        presenter.let {
+            if (it != null) {
+                it.getGenreData(
+                    genre = intent.getSerializableExtra(GenreRouter.GENRE) as Genre
+                )
+                it.onActivityCreated()
+            }
         }
     }
 
     override fun setupRecyclerView(
-        adapter: MovieAdapter,
-        result: Pager<Int, Movie>
+        adapter: CustomPagingAdapter,
+        result: Pager<Int, Any>
     ) {
-        binding.rvMovies.adapter = adapter
-        binding.rvMovies.post { startPostponedEnterTransition() }
+        binding.let {
+            it.rvMovies.adapter = adapter
+            it.rvMovies.post { startPostponedEnterTransition() }
+        }
 
-        lifecycleScope.launch(Dispatchers.Main) {
+        lifecycleScope.launch(Dispatchers.IO) {
             result.flow.cachedIn(this).collectLatest {
                 adapter.submitData(it)
             }

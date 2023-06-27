@@ -3,6 +3,8 @@ package id.rrdev.tmdb_viper.feature.movie
 import android.app.Activity
 import android.util.Log
 import androidx.paging.Pager
+import id.rrdev.tmdb_viper.feature.custom.CustomPagingAdapter
+import id.rrdev.tmdb_viper.feature.genres.Genre
 
 class MoviePresenter(
     private var view: MovieContract.View?
@@ -10,18 +12,17 @@ class MoviePresenter(
 
     private var interactor: MovieContract.Interactor? = MovieInteractor()
     private var router: MovieContract.Router? = MovieRouter(view as? Activity)
+    private var genre : Genre? = null
 
-    override fun onActivityCreated(
-        idGenre: Int
-    ) {
+    override fun onActivityCreated( ) {
         interactor?.fetchMovies(
-            idGenre = idGenre,
+            idGenre = genre?.id ?: 0,
             interactorOutPut = this
         )
     }
 
-    override fun onSuccess(result: Pager<Int, Movie>) {
-        val adapter = MovieAdapter(object : MovieContract.Presenter.MovieClickListener {
+    override fun onSuccess(result: Pager<Int, Any>) {
+        val adapter = CustomPagingAdapter(object : MovieContract.Presenter.MovieClickListener {
                 override fun onMovieClick(result: Movie) {
                     router?.goToDetailActivity(result)
                 }
@@ -38,5 +39,9 @@ class MoviePresenter(
         view = null
         interactor = null
         router = null
+    }
+
+    override fun getGenreData(genre: Genre?) {
+        this.genre = genre
     }
 }

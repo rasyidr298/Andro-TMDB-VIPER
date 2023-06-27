@@ -1,17 +1,15 @@
 package id.rrdev.tmdb_viper.feature.movie
 
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.paging.Pager
-import androidx.paging.PagingData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
+import id.rrdev.tmdb_viper.feature.custom.CustomPagingAdapter
+import id.rrdev.tmdb_viper.feature.genres.Genre
 
 
 interface MovieContract {
     interface View{
         fun setupRecyclerView(
-            adapter: MovieAdapter,
-            result: Pager<Int, Movie>,
+            adapter: CustomPagingAdapter,
+            result: Pager<Int, Any>,
         )
     }
     interface Interactor{
@@ -22,18 +20,17 @@ interface MovieContract {
     }
     interface InteractorOutput{
         fun onSuccess(
-            result : Pager<Int, Movie>
+            result : Pager<Int, Any>
         )
         fun onFailure(message : String)
     }
     interface Presenter{
-        fun onActivityCreated(
-            idGenre: Int
-        )
+        fun onActivityCreated()
         fun onDestroy()
         interface MovieClickListener {
             fun onMovieClick(result: Movie)
         }
+        fun getGenreData(genre: Genre?)
     }
     interface Router{
         fun goToDetailActivity(results: Movie)
